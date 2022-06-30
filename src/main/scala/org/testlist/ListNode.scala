@@ -21,13 +21,13 @@ case class ListNode[A: Ordering](
    */
   def +(a: A): ListNode[A] = {
     if (value.exists(o.lteq(a, _)) || value.isEmpty) {
-      ListNode(value = Some(a), next = Some(this))
+      this.copy(value = Some(a), next = Some(this))
     } else {
       val tail = next match {
         case v@Some(_) => v.map(_ + a)
         case None => Some(ListNode[A](a))
       }
-      ListNode(value = value, tail)
+      this.copy(next = tail)
     }
   }
 
@@ -43,7 +43,7 @@ case class ListNode[A: Ordering](
         case None => ListNode(None, None)
       }
     } else {
-      ListNode(value, next.map(_ - a))
+      this.copy(next = next.map(_ - a))
     }
   }
 
