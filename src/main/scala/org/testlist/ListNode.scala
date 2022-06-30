@@ -1,4 +1,4 @@
-package org.shipmonk
+package org.testlist
 
 /**
  * A simple linked list with order based insertion. The whole structure is immutable, i.e. a fresh copy
@@ -12,7 +12,7 @@ case class ListNode[A: Ordering](
   next: Option[ListNode[A]]
 ) {
 
-  val o = implicitly[Ordering[A]]
+  val o: Ordering[A] = implicitly[Ordering[A]]
 
   /**
    * Add an item to the list
@@ -20,7 +20,7 @@ case class ListNode[A: Ordering](
    * @return A list containing newly added item in the sorted order
    */
   def +(a: A): ListNode[A] = {
-    if (value.map(o.lteq(a, _)).getOrElse(false) || value.isEmpty) {
+    if (value.exists(o.lteq(a, _)) || value.isEmpty) {
       ListNode(value = Some(a), next = Some(this))
     } else {
       val tail = next match {
@@ -37,7 +37,7 @@ case class ListNode[A: Ordering](
    * @return A list without the item, note that once the list becomes empty a [[None]] gets returned
    */
   def -(a: A): ListNode[A] = {
-    if (value.map(o.equiv(_, a)).getOrElse(false)) {
+    if (value.exists(o.equiv(_, a))) {
       next match {
         case Some(tail) => tail
         case None => ListNode(None, None)
