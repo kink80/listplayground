@@ -25,6 +25,8 @@ class ListNodeSpec extends AnyFlatSpec with Matchers {
   it should "correctly count number of elements" in {
     (ListNode(1) + 2 + 3 + 4 - 2 - 3).size should be (2)
     (ListNode(1) + 1 + 1 + 1 + 1 + 1 - 1 - 1).size should be (4)
+    (ListNode(1) - 1 - 1).size should be(0)
+    (ListNode(1) - 1 - 1 + 1).size should be(1)
   }
 
   it should "not remove non-existent element from the list" in {
